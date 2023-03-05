@@ -7,6 +7,7 @@ class TodoGroup extends StatefulWidget {
   final String? groupName;
   final List<SubRecord> subTodos;
 
+  final bool initExpand;
   final bool enableEdit;
   final Function? onDelete;
   final Function(String)? onUpdate;
@@ -21,7 +22,8 @@ class TodoGroup extends StatefulWidget {
       required this.subTodos,
       this.enableEdit = false,
       this.onUpdate,
-      this.onAdd});
+      this.onAdd,
+      this.initExpand = false});
 
   @override
   State<StatefulWidget> createState() => TodoGroupState();
@@ -33,6 +35,7 @@ class TodoGroupState extends State<TodoGroup> {
   /// 可以参考原型项目
   ///
   ///如果 `groupName` != null 使用 `ExpansionTile`
+  /// - 如果 initExpand == true 那就自动展开
   /// - leading 部分使用 `todo_progress` 中进度条
   /// - title 部分使用 `groupName`
   /// - subtitle 在 `enable Edit` 时显示 `edit` 和 `add`
@@ -45,8 +48,7 @@ class TodoGroupState extends State<TodoGroup> {
   /// - 点击 `edit` 时，弹出弹窗修改内容，如果进行了修改，那就更新自身 `groupName` 并调用回调 `onUpdate`
   /// - 点击 `add` 时，弹出弹窗，添加新的 sub todo，如果添加成功，调用 `onAdd` 回调
   ///
-  /// 如果 `groupName` == null, 可以直接返回 SingleTodoItem
-  ///  - *需要检查 `subTodos` 长度为 1*
+  /// 如果 `groupName` == null, 应该产生异常，这个情况是由上一级处理的，不应该进入这
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
