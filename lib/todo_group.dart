@@ -30,6 +30,8 @@ class TodoGroup extends StatefulWidget {
 class TodoGroupState extends State<TodoGroup> {
   /// 要求实现
   ///
+  /// 可以参考原型项目
+  ///
   ///如果 `groupName` != null 使用 `ExpansionTile`
   /// - leading 部分使用 `todo_progress` 中进度条
   /// - title 部分使用 `groupName`
