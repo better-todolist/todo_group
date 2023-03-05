@@ -30,6 +30,11 @@ class TodoGroup extends StatefulWidget {
 }
 
 class TodoGroupState extends State<TodoGroup> {
+  bool _expand = false;
+  TodoGroupState(){
+    _expand = widget.initExpand;
+
+  }
   /// 要求实现
   ///
   /// 可以参考原型项目
