@@ -3,38 +3,22 @@ library todo_group;
 import 'package:flutter/widgets.dart';
 import 'package:todo_record/record/sub_todo.dart';
 
-class TodoGroup extends StatefulWidget {
-  final String? groupName;
-  final List<SubRecord> subTodos;
-
+class TodoGroup extends StatelessWidget {
+  final SubTodoGroup group;
   final bool initExpand;
-  final bool enableEdit;
-  final Function? onDelete;
-  final Function(String)? onUpdate;
   final Function(SubRecord)? onAdd;
+  final Function(int)? onFinish;
 
   // 可能需要其他fields 可以酌情添加
 
-  const TodoGroup(
-      {super.key,
-      this.onDelete,
-      this.groupName,
-      required this.subTodos,
-      this.enableEdit = false,
-      this.onUpdate,
-      this.onAdd,
-      this.initExpand = false});
+  const TodoGroup({
+    super.key,
+    required this.group,
+    this.onAdd,
+    this.initExpand = false,
+    this.onFinish,
+  });
 
-  @override
-  State<StatefulWidget> createState() => TodoGroupState();
-}
-
-class TodoGroupState extends State<TodoGroup> {
-  bool _expand = false;
-  TodoGroupState(){
-    _expand = widget.initExpand;
-
-  }
   /// 要求实现
   ///
   /// 可以参考原型项目
@@ -44,13 +28,11 @@ class TodoGroupState extends State<TodoGroup> {
   /// - leading 部分使用 `todo_progress` 中进度条
   /// - title 部分使用 `groupName`
   /// - subtitle 在 `enable Edit` 时显示 `edit` 和 `add`
-  /// - children 全部是 SingleTodoItem 请为其提供正确的参数。
+  /// - children 全部是 SingleTodoItem, 请为其提供正确的参数。当child 被点击完成了，
+  /// 调用回调函数 onFinish
   /// 请注意，子todo事件完成时，处理会影响当前group 的进度条，同时会影响最外层的 进度条
   /// - 下拉后的图标设置可选更换
   ///
-  /// 在 `Enable Edit` 时
-  /// - 长按 自身 （不是progress-bar） 弹出删除确认弹窗，确认后调用 `onDelete`
-  /// - 点击 `edit` 时，弹出弹窗修改内容，如果进行了修改，那就更新自身 `groupName` 并调用回调 `onUpdate`
   /// - 点击 `add` 时，弹出弹窗，添加新的 sub todo，如果添加成功，调用 `onAdd` 回调
   ///
   /// 如果 `groupName` == null, 应该产生异常，这个情况是由上一级处理的，不应该进入这
